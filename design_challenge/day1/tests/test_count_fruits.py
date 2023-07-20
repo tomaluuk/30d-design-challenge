@@ -18,3 +18,8 @@ def test_list():
             "cherry",
         ]
     ) == {"apple": 4, "banana": 3, "cherry": 4}
+
+
+def test_empty_list() -> None:
+    """Test an empty input list."""
+    assert count_fruits(fruits=[]) == {}
