@@ -1,4 +1,6 @@
-from day1.before import count_fruits 
+"""Tests for count fruits function."""
+from design_challenge.day1.after_tomaluuk import count_fruits
+
 
 def test_list():
     assert count_fruits(
