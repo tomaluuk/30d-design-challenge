@@ -1,1 +1,0 @@
-from design_challenge.day1.tests import test_count_fruits
