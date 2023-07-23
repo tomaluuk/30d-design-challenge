@@ -35,12 +35,11 @@ def process_data(
     process_func: ProcessFunc[T, U] | None = None,
 ) -> Callable[[T], str | int]:
     """Applies filter_func and process_func on a data sequence."""
-    if filter_func is None:
-        filter_func = lambda x: x
-    filtered_data = filter_func(data)
-    if process_func is None:
-        process_func = lambda x: x
-    return process_func(filtered_data)
+    if filter_func:
+        data = filter_func(data)
+    if process_func:
+        return process_func(data)
+    return data
 
 
 def main():
