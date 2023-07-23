@@ -1,27 +1,27 @@
-from typing import Callable, List, TypeVar
+from typing import Callable, TypeVar
 T = TypeVar('T')
 U = TypeVar('U')
 FilterFunc = Callable[[T], T]
 ProcessFunc = Callable[[T], U]
 
-def filter_odd_numbers(numbers: List[int]) -> List[int]:
+def filter_odd_numbers(numbers: list[int]) -> list[int]:
     """Filters odd numbers from a sequence of numbers."""
-    result: List[int] = []
+    result: list[int] = []
     for num in numbers:
         if num % 2 == 0:
             result.append(num)
     return result
 
 
-def square_numbers(numbers: List[int]) -> List[int]:
+def square_numbers(numbers: list[int]) -> list[int]:
     """Square numbers in a sequence."""
-    result: List[int] = []
+    result: list[int] = []
     for num in numbers:
         result.append(num**2)
     return result
 
 
-def count_chars(words: List[str]) -> List[int]:
+def count_chars(words: list[str]) -> list[int]:
     """Counts the number of characters in a sequence of words."""
     result: list[int] = []
     for word in words:
@@ -30,7 +30,7 @@ def count_chars(words: List[str]) -> List[int]:
 
 
 def process_data(
-    data: List[int] | List[str],
+    data: list[int] | list[str],
     filter_func: FilterFunc[T] | None = None,
     process_func: ProcessFunc[T, U] | None = None,
 ) -> Callable[[T], str | int]:
