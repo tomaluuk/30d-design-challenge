@@ -1,8 +1,10 @@
 from typing import Callable, TypeVar, Iterable, Sized
-T = TypeVar('T')
-U = TypeVar('U')
+
+T = TypeVar("T")
+U = TypeVar("U")
 FilterFunc = Callable[[T], T]
 ProcessFunc = Callable[[T], U]
+
 
 def filter_odd_numbers(numbers: Iterable[int]) -> list[int]:
     """Filters odd numbers from a sequence of numbers."""

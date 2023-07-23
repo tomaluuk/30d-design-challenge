@@ -2,6 +2,7 @@
 from design_challenge.day1.after_tomaluuk import count_fruits
 import pytest
 
+
 def test_list():
     assert count_fruits(
         [
@@ -35,4 +36,3 @@ def test_omitted_input() -> None:
     """Test an invalid input that is not a list"""
     with pytest.raises(TypeError):
         count_fruits()
-        
