@@ -1,5 +1,8 @@
 from typing import Callable, List, TypeVar
-T = TypeVar('T', List[int], List[str])
+T = TypeVar('T')
+U = TypeVar('U')
+FilterFunc = Callable[[T], T]
+ProcessFunc = Callable[[T], U]
 
 def filter_odd_numbers(numbers: List[int]) -> List[int]:
     """Filters odd numbers from a sequence of numbers."""
@@ -28,8 +31,8 @@ def count_chars(words: List[str]) -> List[int]:
 
 def process_data(
     data: List[int] | List[str],
-    filter_func: Callable[[T], T] | None = None,
-    process_func: Callable[[T], T] | None = None,
+    filter_func: FilterFunc[T] | None = None,
+    process_func: ProcessFunc[T, U] | None = None,
 ) -> Callable[[T], str | int]:
     """Applies filter_func and process_func on a data sequence."""
     if filter_func is None:
