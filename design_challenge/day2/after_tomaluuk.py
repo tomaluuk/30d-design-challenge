@@ -1,10 +1,10 @@
-from typing import Callable, TypeVar
+from typing import Callable, TypeVar, Iterable, Sized
 T = TypeVar('T')
 U = TypeVar('U')
 FilterFunc = Callable[[T], T]
 ProcessFunc = Callable[[T], U]
 
-def filter_odd_numbers(numbers: list[int]) -> list[int]:
+def filter_odd_numbers(numbers: Iterable[int]) -> list[int]:
     """Filters odd numbers from a sequence of numbers."""
     result: list[int] = []
     for num in numbers:
@@ -13,15 +13,15 @@ def filter_odd_numbers(numbers: list[int]) -> list[int]:
     return result
 
 
-def square_numbers(numbers: list[int]) -> list[int]:
+def square_numbers(numbers: Iterable[int | float]) -> list[float]:
     """Square numbers in a sequence."""
-    result: list[int] = []
+    result: list[float] = []
     for num in numbers:
         result.append(num**2)
     return result
 
 
-def count_chars(words: list[str]) -> list[int]:
+def count_chars(words: Iterable[Sized]) -> list[int]:
     """Counts the number of characters in a sequence of words."""
     result: list[int] = []
     for word in words:
@@ -30,10 +30,10 @@ def count_chars(words: list[str]) -> list[int]:
 
 
 def process_data(
-    data: list[int] | list[str],
+    data: T,
     filter_func: FilterFunc[T] | None = None,
     process_func: ProcessFunc[T, U] | None = None,
-) -> Callable[[T], str | int]:
+) -> T | U:
     """Applies filter_func and process_func on a data sequence."""
     if filter_func:
         data = filter_func(data)
