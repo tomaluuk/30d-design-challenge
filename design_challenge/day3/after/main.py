@@ -1,6 +1,6 @@
 from decimal import Decimal
 from bank import SavingsAccount, CheckingAccount, BankService
-from stripe_service import StripePaymentService
+from payment_service import StripePaymentService
 
 
 def main() -> None:
