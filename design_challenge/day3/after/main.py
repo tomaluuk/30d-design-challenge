@@ -7,9 +7,9 @@ def main() -> None:
     savings_account = SavingsAccount("SA001", Decimal("1000"))
     checking_account = CheckingAccount("CA001", Decimal("500"))
 
-    stripe = StripePaymentService(api_key="sk_test_1234567890")
+    stripe_test_service = StripePaymentService(api_key="sk_test_1234567890")
 
-    bank_service = BankService(payment_service=stripe)
+    bank_service = BankService(payment_service=stripe_test_service)
 
     bank_service.deposit(Decimal("200"), savings_account)
     bank_service.deposit(Decimal("300"), checking_account)
