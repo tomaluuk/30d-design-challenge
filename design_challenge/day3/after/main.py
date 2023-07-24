@@ -1,12 +1,15 @@
 from decimal import Decimal
 from bank import SavingsAccount, CheckingAccount, BankService
+from stripe_service import StripePaymentService
 
 
 def main() -> None:
     savings_account = SavingsAccount("SA001", Decimal("1000"))
     checking_account = CheckingAccount("CA001", Decimal("500"))
 
-    bank_service = BankService()
+    stripe = StripePaymentService(api_key="sk_test_1234567890")
+
+    bank_service = BankService(payment_service=stripe)
 
     bank_service.deposit(Decimal("200"), savings_account)
     bank_service.deposit(Decimal("300"), checking_account)
