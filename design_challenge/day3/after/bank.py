@@ -1,6 +1,6 @@
 from dataclasses import dataclass
 from decimal import Decimal
-from payment_service import PaymentService
+from typing import Protocol
 
 
 @dataclass
@@ -13,6 +13,17 @@ class SavingsAccount:
 class CheckingAccount:
     account_number: str
     balance: Decimal
+
+
+class PaymentService(Protocol):
+    def set_api_key(self, api_key: str) -> None:
+        ...
+
+    def process_payment(self, amount: Decimal) -> None:
+        ...
+
+    def process_payout(self, amount: Decimal) -> None:
+        ...
 
 
 class BankService:
