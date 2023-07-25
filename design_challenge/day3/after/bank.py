@@ -4,6 +4,17 @@ from dataclasses import dataclass
 from enum import Enum, auto
 
 
+class PaymentService(Protocol):
+    def set_api_key(self, api_key: str) -> None:
+        ...
+
+    def process_payment(self, amount: Decimal) -> None:
+        ...
+
+    def process_payout(self, amount: Decimal) -> None:
+        ...
+
+
 class AccountType(Enum):
     SAVINGS = auto()
     CHECKING = auto()
@@ -18,34 +29,25 @@ class Account:
     balance: Decimal
     account_type: AccountType
 
-
-class PaymentService(Protocol):
-    def set_api_key(self, api_key: str) -> None:
-        ...
-
-    def process_payment(self, amount: Decimal) -> None:
-        ...
-
-    def process_payout(self, amount: Decimal) -> None:
-        ...
-
-
-class BankService:
-    def __init__(self, payment_service: PaymentService):
-        self.payment_service = payment_service
-
     def deposit(
         self,
         amount: Decimal,
-        account: Account,
     ) -> None:
-        print(f"Depositing {amount} into {account.account_type} Account {account.account_number}.")
+        print(f"Depositing {amount} into {self.account_type} Account {self.account_number}.")
 
-        self.payment_service.process_payment(amount)
-        account.balance += amount
+        self.balance += amount
 
-    def withdraw(self, amount: Decimal, account: Account) -> None:
-        print(f"Withdrawing {amount} from {account.account_type} Account {account.account_number}.")
+    def withdraw(self, amount: Decimal) -> None:
+        print(f"Withdrawing {amount} from {self.account_type} Account {self.account_number}.")
 
-        self.payment_service.process_payout(amount)
-        account.balance -= amount
+        self.balance -= amount
+
+
+def deposit(amount: Decimal, account: Account, payment_service: PaymentService) -> None:
+    payment_service.process_payment(amount)
+    account.deposit(amount)
+
+
+def withdraw(amount: Decimal, account: Account, payment_service: PaymentService) -> None:
+    payment_service.process_payout(amount)
+    account.withdraw(amount)
