@@ -8,6 +8,9 @@ class AccountType(Enum):
     SAVINGS = auto()
     CHECKING = auto()
 
+    def __str__(self):
+        return self.name.capitalize()
+
 
 @dataclass
 class Account:
@@ -36,19 +39,13 @@ class BankService:
         amount: Decimal,
         account: Account,
     ) -> None:
-        if isinstance(account, Account):
-            print(f"Depositing {amount} into Savings Account {account.account_number}.")
-        else:
-            print(f"Depositing {amount} into Checking Account {account.account_number}.")
+        print(f"Depositing {amount} into {account.account_type} Account {account.account_number}.")
 
         self.payment_service.process_payment(amount)
         account.balance += amount
 
     def withdraw(self, amount: Decimal, account: Account) -> None:
-        if isinstance(account, Account):
-            print(f"Withdrawing {amount} from Savings Account {account.account_number}.")
-        else:
-            print(f"Withdrawing {amount} from Checking Account {account.account_number}.")
+        print(f"Withdrawing {amount} from {account.account_type} Account {account.account_number}.")
 
         self.payment_service.process_payout(amount)
         account.balance -= amount
