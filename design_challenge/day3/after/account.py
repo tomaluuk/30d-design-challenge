@@ -1,21 +1,15 @@
 from decimal import Decimal
 from dataclasses import dataclass
-from abc import ABC
+from enum import Enum, auto
+
+
+class AccountType(Enum):
+    SAVINGS = auto()
+    CHECKING = auto()
 
 
 @dataclass
-class Account(ABC):
+class Account:
     account_number: str
     balance: Decimal
-
-
-@dataclass
-class SavingsAccount(Account):
-    account_number: str
-    balance: Decimal
-
-
-@dataclass
-class CheckingAccount(Account):
-    account_number: str
-    balance: Decimal
+    account_type: AccountType
