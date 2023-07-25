@@ -1,8 +1,19 @@
 from decimal import Decimal
 from typing import Protocol
-from account import Account  # We are still coupled with another module,
+from dataclasses import dataclass
+from enum import Enum, auto
 
-# but the dependency is at least an abstraction
+
+class AccountType(Enum):
+    SAVINGS = auto()
+    CHECKING = auto()
+
+
+@dataclass
+class Account:
+    account_number: str
+    balance: Decimal
+    account_type: AccountType
 
 
 class PaymentService(Protocol):

@@ -1,6 +1,5 @@
 from decimal import Decimal
-from bank import BankService
-from account import Account, AccountType
+from bank import BankService, Account, AccountType
 from stripe_service import StripePaymentService
 
 
