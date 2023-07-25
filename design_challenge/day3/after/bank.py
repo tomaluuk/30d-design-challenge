@@ -1,18 +1,8 @@
-from dataclasses import dataclass
 from decimal import Decimal
 from typing import Protocol
+from account import Account  # We are still coupled with another module,
 
-
-@dataclass
-class SavingsAccount:
-    account_number: str
-    balance: Decimal
-
-
-@dataclass
-class CheckingAccount:
-    account_number: str
-    balance: Decimal
+# but the dependency is at least an abstraction
 
 
 class PaymentService(Protocol):
@@ -33,9 +23,9 @@ class BankService:
     def deposit(
         self,
         amount: Decimal,
-        account: SavingsAccount | CheckingAccount,
+        account: Account,
     ) -> None:
-        if isinstance(account, SavingsAccount):
+        if isinstance(account, Account):
             print(f"Depositing {amount} into Savings Account {account.account_number}.")
         else:
             print(f"Depositing {amount} into Checking Account {account.account_number}.")
@@ -43,8 +33,8 @@ class BankService:
         self.payment_service.process_payment(amount)
         account.balance += amount
 
-    def withdraw(self, amount: Decimal, account: SavingsAccount | CheckingAccount) -> None:
-        if isinstance(account, SavingsAccount):
+    def withdraw(self, amount: Decimal, account: Account) -> None:
+        if isinstance(account, Account):
             print(f"Withdrawing {amount} from Savings Account {account.account_number}.")
         else:
             print(f"Withdrawing {amount} from Checking Account {account.account_number}.")

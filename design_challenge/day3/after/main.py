@@ -1,5 +1,6 @@
 from decimal import Decimal
-from bank import SavingsAccount, CheckingAccount, BankService
+from bank import BankService
+from account import SavingsAccount, CheckingAccount
 from stripe_service import StripePaymentService
 
 
