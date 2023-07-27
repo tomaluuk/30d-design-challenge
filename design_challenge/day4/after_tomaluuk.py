@@ -59,20 +59,18 @@ def generate_order_shipping_notification(order: Order) -> Email:
     )
 
 
-def process_online_order(order: Order) -> None:
+def process_order(order: Order) -> None:
     # Logic to process an online order
-    print("Processing online order...")
+    print(f"Processing {order.type} order...")
     print(generate_order_confirmation_email(order))
-    print("Shipping the order...")
-    print(generate_order_shipping_notification(order))
-    print("Order processed successfully.")
 
+    if order.type == OrderType.ONLINE:
+        print("Shipping the order...")
+        print(generate_order_shipping_notification(order))
 
-def process_in_store_order(order: Order) -> None:
-    # Logic to process an in-store order
-    print("Processing in-store order...")
-    print(generate_order_confirmation_email(order))
-    print("Order ready for pickup.")
+    else:
+        print("Order ready for pickup.")
+
     print("Order processed successfully.")
 
 
@@ -91,11 +89,11 @@ def main() -> None:
     discounted_price = calculate_discounted_price(items, Decimal("0.1"))
     print("Discounted price:", discounted_price)
 
-    process_online_order(online_order)
+    process_order(online_order)
 
     in_store_order = Order(id=456, type=OrderType.IN_STORE, customer_email="john@gmail.com")
 
-    process_in_store_order(in_store_order)
+    process_order(in_store_order)
 
 
 if __name__ == "__main__":
