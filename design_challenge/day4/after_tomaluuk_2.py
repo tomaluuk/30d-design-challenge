@@ -3,6 +3,8 @@ from dataclasses import dataclass
 from enum import StrEnum
 from typing import Iterable
 
+SENDER = "sales@webshop.com"
+
 
 class OrderType(StrEnum):
     ONLINE = "online"
@@ -46,7 +48,7 @@ def generate_order_confirmation_email(order: Order) -> Email:
         body=f"Thank you for your order! Your order #{order.id} has been confirmed.",
         subject="Order Confirmation",
         recipient=order.customer_email,
-        sender="sales@webshop.com",
+        sender=SENDER,
     )
 
 
@@ -55,25 +57,31 @@ def generate_order_shipping_notification(order: Order) -> Email:
         body=f"Good news! Your order #{order.id} has been shipped and is on its way.",
         subject="Order Shipped",
         recipient=order.customer_email,
-        sender="sales@webshop.com",
+        sender=SENDER,
     )
+
+
+def process_order(order: Order) -> None:
+    print(f"Processing {order.type} order...")
+    print(generate_order_confirmation_email(order))
+
+    if order.type == OrderType.ONLINE:
+        process_online_order(order)
+    if order.type == OrderType.IN_STORE:
+        process_in_store_order(order)
+
+    print("Order processed successfully.")
 
 
 def process_online_order(order: Order) -> None:
     # Logic to process an online order
-    print("Processing online order...")
-    print(generate_order_confirmation_email(order))
     print("Shipping the order...")
     print(generate_order_shipping_notification(order))
-    print("Order processed successfully.")
 
 
 def process_in_store_order(order: Order) -> None:
     # Logic to process an in-store order
-    print("Processing in-store order...")
-    print(generate_order_confirmation_email(order))
     print("Order ready for pickup.")
-    print("Order processed successfully.")
 
 
 def main() -> None:
