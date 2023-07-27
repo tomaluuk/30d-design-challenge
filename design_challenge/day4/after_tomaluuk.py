@@ -1,12 +1,18 @@
 from decimal import Decimal
 from dataclasses import dataclass
-from enum import StrEnum
+from enum import StrEnum, auto
 from typing import Iterable
 
 
 class OrderType(StrEnum):
     ONLINE = "online"
     IN_STORE = "in store"
+
+
+class OrderStatus(StrEnum):
+    IN_PROGRESS = auto()
+    CONFIRMED = auto()
+    SHIPPED = auto()
 
 
 @dataclass
@@ -20,6 +26,7 @@ class Order:
     id: int
     type: OrderType
     customer_email: str
+    status: OrderStatus = OrderStatus.IN_PROGRESS
 
 
 @dataclass
@@ -41,16 +48,15 @@ def calculate_discounted_price(items: Iterable[Item], discount: Decimal) -> Deci
     return discounted_price
 
 
-def generate_order_confirmation_email(order: Order) -> Email:
-    return Email(
-        body=f"Thank you for your order! Your order #{order.id} has been confirmed.",
-        subject="Order Confirmation",
-        recipient=order.customer_email,
-        sender="sales@webshop.com",
-    )
+def generate_order_email(order: Order) -> Email:
+    if order.status == OrderStatus.CONFIRMED:
+        return Email(
+            body=f"Thank you for your order! Your order #{order.id} has been confirmed.",
+            subject="Order Confirmation",
+            recipient=order.customer_email,
+            sender="sales@webshop.com",
+        )
 
-
-def generate_order_shipping_notification(order: Order) -> Email:
     return Email(
         body=f"Good news! Your order #{order.id} has been shipped and is on its way.",
         subject="Order Shipped",
@@ -62,15 +68,16 @@ def generate_order_shipping_notification(order: Order) -> Email:
 def process_order(order: Order) -> None:
     # Logic to process an online order
     print(f"Processing {order.type} order...")
-    print(generate_order_confirmation_email(order))
 
     if order.type == OrderType.ONLINE:
         print("Shipping the order...")
-        print(generate_order_shipping_notification(order))
+        order.status = OrderStatus.CONFIRMED
 
     else:
         print("Order ready for pickup.")
+        order.status = OrderStatus.SHIPPED
 
+    print(generate_order_email(order))
     print("Order processed successfully.")
 
 
