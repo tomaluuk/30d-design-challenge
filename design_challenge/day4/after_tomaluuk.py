@@ -37,12 +37,7 @@ class Email:
     sender: str
 
 
-def calculate_total_price(items: Iterable[Item]) -> Decimal:
-    total_price = Decimal(sum(item.price for item in items))
-    return total_price
-
-
-def calculate_discounted_price(items: Iterable[Item], discount: Decimal) -> Decimal:
+def calculate_price(items: Iterable[Item], discount: Decimal = Decimal(0)) -> Decimal:
     total_price = Decimal(sum(item.price for item in items))
     discounted_price = total_price - (total_price * discount)
     return discounted_price
@@ -90,10 +85,10 @@ def main() -> None:
 
     online_order = Order(id=123, type=OrderType.ONLINE, customer_email="sarah@gmail.com")
 
-    total_price = calculate_total_price(items)
+    total_price = calculate_price(items)
     print("Total price:", total_price)
 
-    discounted_price = calculate_discounted_price(items, Decimal("0.1"))
+    discounted_price = calculate_price(items, Decimal("0.1"))
     print("Discounted price:", discounted_price)
 
     process_order(online_order)
