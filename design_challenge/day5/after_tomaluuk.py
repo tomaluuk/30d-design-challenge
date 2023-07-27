@@ -21,12 +21,12 @@ def main():
 
     # Print the cart
     print("Shopping Cart:")
-    print("Item, Price, Qty, Total")
+    print(f"{'Item'}{'Price':>14}{'Qty':>6}{'Total':>8}")
     for item in items:
         total_price = item.price * item.quantity
-        print(item.name, item.price, item.quantity, total_price, sep=", ")
+        print(f"{item.name:<8} $ {item.price:>6}{item.quantity:>6}  ${total_price:>6}")
     print("=" * 40)
-    print(f"Total: ${total}")
+    print(f"Total: $ {total}")
 
 
 if __name__ == "__main__":
