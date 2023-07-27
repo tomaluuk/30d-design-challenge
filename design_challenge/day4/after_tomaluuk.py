@@ -44,17 +44,16 @@ def calculate_price(items: Iterable[Item], discount: Decimal = Decimal(0)) -> De
 
 
 def generate_order_email(order: Order) -> Email:
+    message = f"Good news! Your order #{order.id} has been shipped and is on its way."
+    subject = "Order Shipped"
+
     if order.status == OrderStatus.CONFIRMED:
-        return Email(
-            body=f"Thank you for your order! Your order #{order.id} has been confirmed.",
-            subject="Order Confirmation",
-            recipient=order.customer_email,
-            sender="sales@webshop.com",
-        )
+        message = f"Thank you for your order! Your order #{order.id} has been confirmed."
+        subject = "Order Confirmation"
 
     return Email(
-        body=f"Good news! Your order #{order.id} has been shipped and is on its way.",
-        subject="Order Shipped",
+        body=message,
+        subject=subject,
         recipient=order.customer_email,
         sender="sales@webshop.com",
     )
