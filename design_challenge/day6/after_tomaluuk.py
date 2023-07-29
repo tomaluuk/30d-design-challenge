@@ -8,11 +8,19 @@ class Item:
     price: Decimal
     quantity: int
 
+    @property
+    def subtotal(self):
+        return self.price * self.quantity
+
 
 @dataclass
 class ShoppingCart:
     items: list[Item] = field(default_factory=list)
     discount_code: str | None = None
+
+    @property
+    def total(self):
+        return sum(item.price * item.quantity for item in self.items)
 
 
 def main() -> None:
@@ -32,16 +40,15 @@ def main() -> None:
     # Remove an item
     cart.items.remove(cart.items[1])
 
-    total = sum(item.price * item.quantity for item in cart.items)
+    print(cart.total)
 
     # Print the cart
     print("Shopping Cart:")
     print(f"{'Item':<10}{'Price':>10}{'Qty':>7}{'Total':>13}")
     for item in cart.items:
-        total_price = item.price * item.quantity
-        print(f"{item.name:<12}${item.price:>7.2f}{item.quantity:>7}     ${total_price:>7.2f}")
+        print(f"{item.name:<12}${item.price:>7.2f}{item.quantity:>7}     ${item.subtotal:>7.2f}")
     print("=" * 40)
-    print(f"Total: ${total:>7.2f}")
+    print(f"Total: ${cart.total:>7.2f}")
 
 
 if __name__ == "__main__":
