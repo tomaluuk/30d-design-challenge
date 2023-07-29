@@ -12,6 +12,12 @@ class Item:
     def subtotal(self):
         return self.price * self.quantity
 
+    def set_quantity(self, quantity):
+        self.quantity = quantity
+
+    def set_price(self, price):
+        self.price = price
+
 
 @dataclass
 class ShoppingCart:
@@ -21,6 +27,13 @@ class ShoppingCart:
     @property
     def total(self):
         return sum(item.price * item.quantity for item in self.items)
+
+    def update_item(self, index: int, quantity: int | None = None, price: Decimal | None = None):
+        if quantity is not None:
+            self.items[index].set_quantity(quantity)
+
+        if price is not None:
+            self.items[index].set_price(price)
 
 
 def main() -> None:
@@ -34,8 +47,8 @@ def main() -> None:
     )
 
     # Update some items' quantity and price
-    cart.items[0].quantity = 10
-    cart.items[2].price = Decimal("3.50")
+    cart.update_item(index=0, quantity=10)
+    cart.update_item(index=2, price=Decimal("3.50"))
 
     # Remove an item
     cart.items.remove(cart.items[1])
