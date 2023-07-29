@@ -12,10 +12,10 @@ class Item:
     def subtotal(self):
         return self.price * self.quantity
 
-    def set_quantity(self, quantity):
+    def set_quantity(self, quantity) -> None:
         self.quantity = quantity
 
-    def set_price(self, price):
+    def set_price(self, price) -> None:
         self.price = price
 
 
@@ -28,7 +28,9 @@ class ShoppingCart:
     def total(self):
         return sum(item.price * item.quantity for item in self.items)
 
-    def update_item(self, index: int, quantity: int | None = None, price: Decimal | None = None):
+    def update_item(
+        self, index: int, quantity: int | None = None, price: Decimal | None = None
+    ) -> None:
         if quantity is not None:
             self.items[index].set_quantity(quantity)
 
@@ -55,8 +57,6 @@ def main() -> None:
 
     # Remove an item
     cart.remove_item(1)
-
-    print(cart.total)
 
     # Print the cart
     print("Shopping Cart:")
