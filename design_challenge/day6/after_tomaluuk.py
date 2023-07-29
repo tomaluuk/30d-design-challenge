@@ -35,6 +35,9 @@ class ShoppingCart:
         if price is not None:
             self.items[index].set_price(price)
 
+    def remove_item(self, index) -> None:
+        self.items.remove(self.items[index])
+
 
 def main() -> None:
     # Create a shopping cart and add some items to it
@@ -51,7 +54,7 @@ def main() -> None:
     cart.update_item(index=2, price=Decimal("3.50"))
 
     # Remove an item
-    cart.items.remove(cart.items[1])
+    cart.remove_item(1)
 
     print(cart.total)
 
