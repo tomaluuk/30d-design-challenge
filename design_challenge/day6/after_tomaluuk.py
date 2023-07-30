@@ -2,6 +2,10 @@ from dataclasses import dataclass, field
 from decimal import Decimal
 
 
+class ItemNotFoundException(Exception):
+    pass
+
+
 @dataclass
 class Item:
     name: str
@@ -31,17 +35,26 @@ class ShoppingCart:
     def total(self):
         return sum(item.subtotal for item in self.items)
 
+    def find_item(self, name: str) -> Item:
+        for item in self.items:
+            if item.name == name:
+                return item
+
+        raise ItemNotFoundException(f"Item '{name}' not found.")
+
     def update_item(
-        self, index: int, quantity: int | None = None, price: Decimal | None = None
+        self, name: str, quantity: int | None = None, price: Decimal | None = None
     ) -> None:
+        found_item = self.find_item(name)
         if quantity is not None:
-            self.items[index].set_quantity(quantity)
+            found_item.set_quantity(quantity)
 
         if price is not None:
-            self.items[index].set_price(price)
+            found_item.set_price(price)
 
-    def remove_item(self, index) -> None:
-        self.items.remove(self.items[index])
+    def remove_item(self, name) -> None:
+        found_item = self.find_item(name)
+        self.items.remove(found_item)
 
     def add_item(self, item: Item) -> None:
         self.items.append(item)
@@ -58,11 +71,11 @@ def main() -> None:
     )
 
     # Update some items' quantity and price
-    cart.update_item(index=0, quantity=10)
-    cart.update_item(index=2, price=Decimal("3.50"))
+    cart.update_item("Apple", quantity=10)
+    cart.update_item("Pizza", price=Decimal("3.50"))
 
     # Remove an item
-    cart.remove_item(1)
+    cart.remove_item("Banana")
     cart.add_item(Item("Burger", Decimal("7.90"), 2))
 
     # Print the cart
