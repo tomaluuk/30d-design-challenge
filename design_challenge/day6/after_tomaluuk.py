@@ -40,6 +40,9 @@ class ShoppingCart:
     def remove_item(self, index) -> None:
         self.items.remove(self.items[index])
 
+    def add_item(self, item: Item) -> None:
+        self.items.append(item)
+
 
 def main() -> None:
     # Create a shopping cart and add some items to it
@@ -57,6 +60,7 @@ def main() -> None:
 
     # Remove an item
     cart.remove_item(1)
+    cart.add_item(Item("Burger", Decimal("7.90"), 2))
 
     # Print the cart
     print("Shopping Cart:")
