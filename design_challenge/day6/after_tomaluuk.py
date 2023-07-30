@@ -3,7 +3,24 @@ from decimal import Decimal
 
 
 class ItemNotFoundException(Exception):
-    pass
+    def __init__(self, name, message="No item found with name"):
+        self.name = name
+        self.message = f"{message} '{self.name}'"
+        super().__init__(self.message)
+
+
+class InvalidQuantityException(Exception):
+    def __init__(self, quantity, message="Quantity must be a positive integer."):
+        self.quantity = quantity
+        self.message = f"{message} Quantity given: {self.quantity}"
+        super().__init__(self.message)
+
+
+class InvalidPriceException(Exception):
+    def __init__(self, price, message="Price must be a positive Decimal number."):
+        self.price = price
+        self.message = f"{message} Price given: {self.price}"
+        super().__init__(self.message)
 
 
 @dataclass
@@ -17,9 +34,15 @@ class Item:
         return self.price * self.quantity
 
     def set_quantity(self, quantity: int) -> None:
+        if quantity <= 0:
+            raise InvalidQuantityException(quantity)
+
         self.quantity = quantity
 
     def set_price(self, price: Decimal) -> None:
+        if price <= Decimal(0):
+            raise InvalidPriceException(price)
+
         self.price = price
 
 
@@ -60,17 +83,21 @@ class ShoppingCart:
             if item.name == name:
                 return item
 
-        raise ItemNotFoundException(f"Item '{name}' not found.")
+        raise ItemNotFoundException(name)
 
     def update_item(
         self, name: str, quantity: int | None = None, price: Decimal | None = None
     ) -> None:
         found_item = self.find_item(name)
-        if quantity is not None:
-            found_item.set_quantity(quantity)
+        try:
+            if quantity is not None:
+                found_item.set_quantity(quantity)
 
-        if price is not None:
-            found_item.set_price(price)
+            if price is not None:
+                found_item.set_price(price)
+
+        except Exception as e:
+            raise e
 
     def remove_item(self, name) -> None:
         found_item = self.find_item(name)
