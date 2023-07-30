@@ -29,6 +29,13 @@ class Item:
     price: Decimal
     quantity: int
 
+    def __eq__(self, other) -> bool:
+        return (
+            self.name == other.name
+            and self.price == other.price
+            and self.quantity == other.quantity
+        )
+
     @property
     def subtotal(self) -> Decimal:
         return self.price * self.quantity
