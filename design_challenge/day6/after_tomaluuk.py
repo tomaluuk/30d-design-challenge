@@ -24,6 +24,9 @@ class ShoppingCart:
     items: list[Item] = field(default_factory=list)
     discount_code: str | None = None
 
+    def __len__(self):
+        return len(self.items)
+
     @property
     def total(self):
         return sum(item.price * item.quantity for item in self.items)
