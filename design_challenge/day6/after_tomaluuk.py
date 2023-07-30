@@ -31,9 +31,29 @@ class ShoppingCart:
     def __len__(self):
         return len(self.items)
 
+    def __str__(self) -> str:
+        """Override string representation of the shopping cart."""
+
+        # Use string concatenation due to indentation issues.
+        output_str = (
+            "Shopping Cart:\n"
+            + f"{'Item':<10}{'Price':>10}{'Qty':>7}{'Total':>13}"
+            + f"{self._get_items_str}\n"
+            + f"{'=' * 40}\n"
+            f"Total: ${self.total:>7.2f}\n"
+        )
+        return output_str
+
     @property
     def total(self):
         return sum(item.subtotal for item in self.items)
+
+    @property
+    def _get_items_str(self):
+        items_str = ""
+        for item in self.items:
+            items_str += f"""\n{item.name:<12}${item.price:>7.2f}{item.quantity:>7}     ${item.subtotal:>7.2f}"""
+        return items_str
 
     def find_item(self, name: str) -> Item:
         for item in self.items:
@@ -78,13 +98,7 @@ def main() -> None:
     cart.remove_item("Banana")
     cart.add_item(Item("Burger", Decimal("7.90"), 2))
 
-    # Print the cart
-    print("Shopping Cart:")
-    print(f"{'Item':<10}{'Price':>10}{'Qty':>7}{'Total':>13}")
-    for item in cart.items:
-        print(f"{item.name:<12}${item.price:>7.2f}{item.quantity:>7}     ${item.subtotal:>7.2f}")
-    print("=" * 40)
-    print(f"Total: ${cart.total:>7.2f}")
+    print(cart)
 
 
 if __name__ == "__main__":
