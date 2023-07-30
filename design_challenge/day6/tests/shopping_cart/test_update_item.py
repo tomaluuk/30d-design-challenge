@@ -9,7 +9,7 @@ import random
 import pytest
 
 
-def generate_random_decimal(lower_limit: int, upper_limit: int) -> Decimal:
+def generate_random_decimal(lower_limit: int = 1, upper_limit: int = 1000) -> Decimal:
     """A helper function to simplify the generation of random numbers of type Decimal."""
     return Decimal(random.randrange(lower_limit, upper_limit) / 100)
 
@@ -22,7 +22,7 @@ def test_price_update():
     cart = ShoppingCart(items)
 
     for _ in range(1, 1000):
-        cart.update_item(item_name, price=generate_random_decimal(1, 100))
+        cart.update_item(item_name, price=generate_random_decimal())
 
 
 def test_invalid_price_update():
