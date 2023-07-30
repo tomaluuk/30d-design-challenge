@@ -54,3 +54,29 @@ def test_invalid_quantity_update():
     cart = ShoppingCart(items)
     with pytest.raises(InvalidQuantityException):
         cart.update_item("Book", quantity=-3)
+
+
+def test_no_updates():
+    item_name = "Book"
+    item_price = Decimal(14.5)
+    item_quantity = 2
+    items = [
+        Item(item_name, item_price, item_quantity),
+    ]
+    cart = ShoppingCart(items)
+    cart.update_item(item_name)
+    # Check that item has remained unchanged
+    assert cart.find_item(item_name) == Item(item_name, item_price, item_quantity)
+
+
+def test_identical_updates():
+    item_name = "Book"
+    item_price = Decimal(14.5)
+    item_quantity = 2
+    items = [
+        Item(item_name, item_price, item_quantity),
+    ]
+    cart = ShoppingCart(items)
+    cart.update_item(item_name, item_quantity, item_price)
+    # Check that item has remained unchanged
+    assert cart.find_item(item_name) == Item(item_name, item_price, item_quantity)
