@@ -9,13 +9,13 @@ class Item:
     quantity: int
 
     @property
-    def subtotal(self):
+    def subtotal(self) -> Decimal:
         return self.price * self.quantity
 
-    def set_quantity(self, quantity) -> None:
+    def set_quantity(self, quantity: int) -> None:
         self.quantity = quantity
 
-    def set_price(self, price) -> None:
+    def set_price(self, price: Decimal) -> None:
         self.price = price
 
 
