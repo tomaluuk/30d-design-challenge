@@ -29,7 +29,7 @@ class ShoppingCart:
 
     @property
     def total(self):
-        return sum(item.price * item.quantity for item in self.items)
+        return sum(item.subtotal for item in self.items)
 
     def update_item(
         self, index: int, quantity: int | None = None, price: Decimal | None = None
