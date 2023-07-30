@@ -1,6 +1,10 @@
 {
   "python.formatting.provider": "black",
   "python.linting.lintOnSave": true,
+  "python.linting.flake8Args": [
+    "--max-line-length=120",
+    "--ignore=E402,E302,E305,E501",
+  ],
   "[python]": {
     "editor.defaultFormatter": "ms-python.black-formatter",
     "editor.formatOnSave": true,
@@ -8,4 +12,5 @@
     "editor.formatOnSaveMode": "file",
   },
   "flake8.importStrategy": "fromEnvironment",
+  
 }
