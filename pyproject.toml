@@ -1,5 +1,5 @@
 [tool.poetry]
-name = "improve_discount"
+name = "30dds"
 version = "0.1.0"
 description = ""
 authors = ["ArjanCodes <support@arjancodes.com>"]
