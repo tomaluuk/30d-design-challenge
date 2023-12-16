@@ -35,7 +35,10 @@ DISCOUNT_CODES = {
 
 @dataclass
 class ShoppingCart:
-    discount_code: str = ""
+    # discount_code: list = [] # INCORRECT: would instantiate each ShoppingCart with a reference to the same mutable data type "list". Use default_factory.
+    discount_code: list[str] = field(
+        default_factory=list
+    )  # Instantiates each ShoppingCart with a unique instance of the mutable data type "list".
     items: list[Item] = field(default_factory=list)
 
     def add_item(self, item: Item) -> None:
