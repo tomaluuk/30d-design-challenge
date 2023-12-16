@@ -132,30 +132,23 @@ class ShoppingCart:
         if payment_method in PAYMENT_METHODS:
             self.payment_method = payment_method
 
-    def process_payment(self, payment_method) -> None:
-        payment_method.process_payment(self.total)
 
-
-def get_payment_method(payment_method):
-    if payment_method in PAYMENT_METHODS.keys():
-        return PAYMENT_METHODS[payment_method]
-    else:
-        print(f"Unknown payment type '{payment_method}'")
-
-
-def request_payment_method():
+def request_payment_method() -> PaymentStrategy:
     valid_input = False
-    input_payment_method = ""
+    input_payment_method = input("What payment method would you like to use? (cc/paypal/apple)\n> ")
     while not valid_input:
-        input_payment_method = input(
-            "What payment method would you like to use? (cc/paypal/apple)\n> "
-        )
         if input_payment_method in PAYMENT_METHODS.keys():
             valid_input = True
         else:
             print(f"Payment method '{input_payment_method}' is not valid.")
-            print(f"Please choose one of the following: {[*PAYMENT_METHODS.keys()]}")
-    return input_payment_method
+            input_payment_method = input(
+                f"Please choose one of the following payment methods: {[*PAYMENT_METHODS.keys()]}\n> "
+            )
+    return PAYMENT_METHODS[input_payment_method]
+
+
+def process_payment(payment_method, total) -> None:
+    payment_method.process_payment(total)
 
 
 def main() -> None:
@@ -172,9 +165,8 @@ def main() -> None:
     # Print the total
     cart.display()
 
-    input_payment_method = request_payment_method()
-    payment_method = get_payment_method(input_payment_method)
-    cart.process_payment(payment_method)
+    payment_method = request_payment_method()
+    process_payment(payment_method, cart.total)
 
 
 if __name__ == "__main__":
